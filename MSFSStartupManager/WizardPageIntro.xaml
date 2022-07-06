@@ -1,0 +1,36 @@
+﻿<Page x:Class="MSFSStartupManager.WizardPageIntro"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MSFSStartupManager"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}">
+
+    <StackPanel>
+        <StackPanel Margin="0,8">
+            <TextBlock TextWrapping="Wrap" FontSize="20">Startup Manager for Microsoft Flight Simulator</TextBlock>
+        </StackPanel>
+        <StackPanel Margin="0,8">
+            <TextBlock TextWrapping="Wrap">NOTE: This is an INCREDIBLY early alpha release of this program, released purely (June 2022) to help diagnose some issues with programs not starting with Flight Simulator.</TextBlock>
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock TextWrapping="Wrap" Text="Sorry for the huge page of dense text here! We're trying to diagnose a difficult problem, so there's a little bit of explanation and it would be very helpful if you read it in detail." />
+            <TextBlock Margin="0,8" TextWrapping="Wrap"><Run Text="Some programs ("/><Run Text="not"/><Run Text=" scenery or aircraft) can "/><Run Language="en-gb" Text="ask "/><Run Text="Flight Simulator to run them when the simulator starts. That process normally works but in June 2022 lots of people are suddenly reporting problems with "/><Run Language="en-gb" Text="it. "/><Run Text="This program collects and sends me some specific diagnostic information about your simulator and startup programs to help diagnose "/><Run Language="en-gb" Text="that "/><Run Text="startup problem."/></TextBlock>
+            <TextBlock Margin="0,8" TextWrapping="Wrap">Note that I'm not affiliated with Microsoft; I merely manage the open-source
+                    <Hyperlink Foreground="#FF6D6D6D" NavigateUri="https://flightsim.to/file/21253/better-bravo-lights" TextDecorations="Underline" RequestNavigate="Hyperlink_RequestNavigate">Better Bravo Lights</Hyperlink>
+                    program and I've been getting a lot of reports about programs such as Better Bravo Lights or FSUIPC suddenly not starting up with Flight Simulator, which is obviously very frustrating.</TextBlock>
+            <TextBlock TextWrapping="Wrap">
+                    It's helpful to get information both about systems that are working fine as well as systems that aren't, so even if everything's working for you, it would be helpful to get diagnostics from you.
+            </TextBlock>
+
+            <TextBlock TextWrapping="Wrap">
+                You'll need to start up Flight Simulator and wait for it to get to the main menu once or twice. Please allow enough time for that.
+            </TextBlock>
+
+            <TextBlock TextWrapping="Wrap" Margin="0,8">Ready?</TextBlock>
+        </StackPanel>
+    </StackPanel>
+</Page>

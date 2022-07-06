@@ -1,0 +1,38 @@
+﻿<Page x:Class="MSFSStartupManager.WizardPageNothingStartedOfferReplace"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MSFSStartupManager"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="WizardPageNothingStartedTryReplacingEntirely">
+
+    <StackPanel>
+        <StackPanel Margin="0,8">
+            <TextBlock TextWrapping="Wrap" FontSize="20">Nothing started correctly</TextBlock>
+        </StackPanel>
+        <StackPanel>
+            <TextBlock TextWrapping="Wrap">
+            Ok, you've indicated that <Run FontWeight="Bold">no</Run> addons started successfully along with Flight Simulator.
+            </TextBlock>
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock TextWrapping="Wrap" Margin="0,8">
+                To get some more diagnostics we could try
+                <Run FontStyle="Italic">temporarily</Run> replacing your <Run FontFamily="Courier New">exe.xml</Run> startup configuration file completely with one known to be working on another system, to test if that works.
+                (We'll put your original one back when we're done.)
+            </TextBlock>
+        </StackPanel>
+
+        <StackPanel Margin="0,8">
+            <TextBlock Margin="0,8" TextWrapping="Wrap">Would you be happy to give that a try?</TextBlock>
+
+            <RadioButton IsChecked="{Binding YesTryReplacing}">
+                <TextBlock>Yes, let's try replacing my startup <Run FontFamily="Courier New">exe.xml</Run> file temporarily.</TextBlock>
+            </RadioButton>
+            <RadioButton Margin="0,4" IsChecked="{Binding NoDoNotReplace}">No, I'd rather not do that right now, thank you.</RadioButton>
+        </StackPanel>
+    </StackPanel>
+</Page>

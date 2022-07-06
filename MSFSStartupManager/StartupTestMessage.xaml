@@ -1,0 +1,18 @@
+﻿<Window x:Class="MSFSStartupManager.StartupTestMessage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MSFSStartupManager"
+        mc:Ignorable="d"
+        Topmost="True"
+        Title="Flight Simulator Addon Start Test" Height="200" Width="400">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" FontSize="20" x:Name="Message" TextWrapping="Wrap"></TextBlock>
+        <Button Grid.Row="1" Margin="8" Click="Button_Click">OK</Button>
+    </Grid>
+</Window>

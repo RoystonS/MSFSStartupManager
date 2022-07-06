@@ -1,0 +1,26 @@
+﻿<Window x:Class="MSFSStartupManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MSFSStartupManager"
+        d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
+        mc:Ignorable="d"
+        Closing="Window_Closing"
+        Title="MSFS Startup Manager" Height="600" Width="600">
+    <Window.Resources>
+        <local:BoolToVisibleConverter x:Key="BoolToVisibleConverter" />
+        <local:BoolToCollapsedConverter x:Key="BoolToCollapsedConverter" />
+    </Window.Resources>
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Frame x:Name="NavigationFrame" LoadCompleted="NavigationFrame_LoadCompleted" NavigationUIVisibility="Hidden" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Command="{Binding MovePrevious}" Padding="8">Previous</Button>
+            <Button Margin="8,0,0,0" Command="{Binding CurrentPageViewModel.MoveNext}" Padding="8">Next</Button>
+        </StackPanel>
+    </Grid>
+</Window>

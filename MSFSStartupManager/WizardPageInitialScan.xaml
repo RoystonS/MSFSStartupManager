@@ -1,0 +1,55 @@
+﻿<Page x:Class="MSFSStartupManager.WizardPageInitialScan"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MSFSStartupManager"
+      xmlns:localui="clr-namespace:MSFSStartupManager.UI"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="WizardPageInitialScan">
+    <Page.Resources>
+        <local:BoolToVisibleConverter x:Key="BoolToVisibleConverter" />
+        <local:BoolToCollapsedConverter x:Key="BoolToCollapsedConverter" />
+    </Page.Resources>
+
+    <StackPanel>
+        <StackPanel Margin="0,8">
+            <TextBlock TextWrapping="Wrap" FontSize="20">Scan complete</TextBlock>
+        </StackPanel>
+        <StackPanel Visibility="{Binding ExeXmlIsCorruptAndNotFixable, Converter={StaticResource BoolToVisibleConverter}}">
+            <TextBlock TextWrapping="Wrap">
+                    This program has scanned your simulator and your <Run FontFamily="Courier New">exe.xml</Run> file that controls the files that start up with your simulator is significantly corrupted. Some parts of it may work, but it's fairly broken.
+                    You can find some general information about this at the BetterBravoLights page that talks about failures to install BetterBravoLights due to this problem:
+                    <Hyperlink NavigateUri="https://github.com/RoystonS/BetterBravoLights/wiki/I-can't-install-because-of-a-%22corrupt-%60exe.xml%60-file%22%3F">corrupted exe.xml documentation</Hyperlink>.
+                    This isn't a problem with Flight Simulator but with some other program that has messed up your configuration. Depending on the corruption you may see some programs starting up correctly and not others, or none at all.
+            </TextBlock>
+        </StackPanel>
+
+        <StackPanel Visibility="{Binding HasNoEnabledAddons, Converter={StaticResource BoolToVisibleConverter}}"
+                        Margin="0,8">
+            <TextBlock TextWrapping="Wrap">You currently have no addons configured to start with Flight Simulator, so this program has nothing to report. Thanks for your interest anyway!</TextBlock>
+        </StackPanel>
+
+        <StackPanel Visibility="{Binding HasNoEnabledAddons, Converter={StaticResource BoolToCollapsedConverter}}">
+            <TextBlock TextWrapping="Wrap">
+                    You currently have the following programs set to start automatically with Flight Simulator:
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" FontSize="14" Text="{Binding EnabledAddonsNames, Mode=OneWay}" Margin="8,4" />
+            <TextBlock TextWrapping="Wrap">
+                    Because Flight Simulator can update itself on an almost daily basis, and because people try different configurations over time and forget what changes they've made, it's important that you test
+                    whether your programs start up correctly <Run FontWeight="Bold">now</Run>, as you report your diagnostics, rather than reporting whether they started up correctly yesterday or a few days ago.
+                    <LineBreak />
+                    <LineBreak />
+                    Please run Flight Simulator <Run FontStyle="Italic">now</Run>, wait for it to get to the main menu, and then indicate what happened with your startup addons:
+            </TextBlock>
+            <ListView ItemsSource="{Binding AddonStartupStatusViewModels}" HorizontalContentAlignment="Stretch">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <localui:AddonStartupStatusReport />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+    </StackPanel>
+</Page>

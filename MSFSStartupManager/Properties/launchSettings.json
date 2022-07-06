@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "MSFSStartupManager": {
+      "commandName": "Project"
+    },
+    "/startuptest": {
+      "commandName": "Project",
+      "commandLineArgs": "/startuptest"
+    }
+  }
+}
