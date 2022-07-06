@@ -20,7 +20,7 @@
         <Frame x:Name="NavigationFrame" LoadCompleted="NavigationFrame_LoadCompleted" NavigationUIVisibility="Hidden" />
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Command="{Binding MovePrevious}" Padding="8">Previous</Button>
-            <Button Margin="8,0,0,0" Command="{Binding CurrentPageViewModel.MoveNext}" Padding="8">Next</Button>
+            <Button Margin="8,0,0,0" Command="{Binding CurrentPageViewModel.MoveNext}" Padding="8" Content="{Binding CurrentPageViewModel.MoveNextButtonName}" />
         </StackPanel>
     </Grid>
 </Window>

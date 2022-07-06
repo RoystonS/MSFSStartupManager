@@ -14,7 +14,7 @@ namespace MSFSStartupManager
         }
 
         public override ICommand MoveNext => new PropertyBasedCommand(this, nameof(CanMoveNext), DoMoveNext);
-
+        public override string MoveNextButtonName => "Send Report";
         public override string ViewName => "WizardPageSummaryAndSend.xaml";
 
         public string ReportText

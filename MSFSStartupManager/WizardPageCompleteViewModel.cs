@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace MSFSStartupManager
 {
@@ -11,6 +9,9 @@ namespace MSFSStartupManager
         public WizardPageCompleteViewModel(MainWindowViewModel mainViewModel)
         {
             this.mainViewModel = mainViewModel;
+
+            // If we're at this page, we've done the submission.
+            this.CanMovePrevious = false;
         }
 
         public override ICommand MoveNext => new DisabledCommand();

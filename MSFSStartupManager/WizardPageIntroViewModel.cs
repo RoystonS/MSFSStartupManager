@@ -16,6 +16,11 @@ namespace MSFSStartupManager
             set { SetProperty(ref canMovePrevious, value); }
         }
 
+        public virtual string MoveNextButtonName
+        {
+            get { return "Next"; }
+        }
+
         public virtual void EnterPage()
         {
         }
