@@ -40,12 +40,6 @@ namespace MSFSStartupManager
             set { DataContext = value; }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            new ReportWindow().Show();
-            this.Close();
-        }
-
         private void NavigationFrame_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
             var content = NavigationFrame.Content as FrameworkElement;
