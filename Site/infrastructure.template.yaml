@@ -1,0 +1,170 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: "MSFSStartup Tracking Stack"
+Parameters:
+  Environment:
+    Description: Environment
+    Type: String
+
+Resources:
+  LambdaBasicExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Path: /
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  S3WritePolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: WriteS3Policy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - "s3:Put*"
+            Resource: !Sub "arn:aws:s3:::msfs-startup-submissions-${Environment}/*"
+      Roles:
+        - !Ref LambdaBasicExecutionRole
+
+  NodeFunction:
+    Type: AWS::Lambda::Function
+    Metadata:
+      cfn-lint:
+        config:
+          ignore_checks:
+            # We expect to build and deploy the Lambda code with 'aws cloudformation package'
+            - W3002
+    Properties:
+      FunctionName: !Sub msfs-startup-${Environment}
+      Description: NodeJS Server to handle MSFS Startup diagnostic submissions
+      Runtime: nodejs16.x # If you're getting a cfn-lint complaint about this, upgrade cfn-lint
+      Role: !GetAtt LambdaBasicExecutionRole.Arn
+      Code: lambdajs/dist
+      Handler: index.handler
+      ReservedConcurrentExecutions: 1
+      Timeout: 30
+      Environment:
+        Variables:
+          CLOUD_ENVIRONMENT: !Ref Environment
+          BUCKET_NAME: !Ref S3Bucket
+
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    DependsOn: SnsTopicPolicy
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Properties:
+      BucketName: !Sub msfs-startup-postings-${Environment}
+      AccessControl: Private
+      NotificationConfiguration:
+        TopicConfigurations:
+          - Event: s3:ObjectCreated:*
+            Topic: !Ref SnsTopic
+
+  SnsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Sub msfs-startup-${Environment}
+      DisplayName: !Sub MSFS ${Environment} Startup Posting
+
+  SnsTopicPolicy:
+    Type: AWS::SNS::TopicPolicy
+    Properties:
+      Topics:
+        - !Ref SnsTopic
+      PolicyDocument:
+        Version: "2012-10-17"
+        Id: PolicyId
+        Statement:
+          Action: sns:Publish
+          Effect: Allow
+          Principal:
+            Service: s3.amazonaws.com
+          Resource: !Ref SnsTopic
+          Condition:
+            ArnLike:
+              aws:SourceArn: !Sub "arn:aws:s3:::msfs-startup-postings-${Environment}"
+
+  SnsSubscription:
+    Type: AWS::SNS::Subscription
+    DependsOn: SnsTopicPolicy
+    Properties:
+      Endpoint: royston@shufflebotham.org
+      Protocol: email
+      TopicArn: !Ref SnsTopic
+
+  NodeRestApi:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: !Sub msfs-submission-${Environment}
+      ProtocolType: HTTP
+
+  # Grant API Gateway the permission to run the Lambda on the $default stage
+  Perm:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt NodeFunction.Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Join
+        - ""
+        - - "arn:aws:execute-api:"
+          - !Ref "AWS::Region"
+          - ":"
+          - !Ref "AWS::AccountId"
+          - ":"
+          - !Ref NodeRestApi
+          - "/*/$default"
+
+  LambdaIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref NodeRestApi
+      Description: Lambda thing
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Join
+        - ""
+        - - "arn:"
+          - !Ref "AWS::Partition"
+          - ":apigateway:"
+          - !Ref "AWS::Region"
+          - ":lambda:path/2015-03-31/functions/"
+          - !GetAtt NodeFunction.Arn
+          - /invocations
+      PayloadFormatVersion: "2.0"
+
+  MyRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref NodeRestApi
+      RouteKey: $default
+      Target: !Join
+        - /
+        - - integrations
+          - !Ref LambdaIntegration
+
+  Stage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref NodeRestApi
+      StageName: $default
+      AutoDeploy: true
+
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${NodeFunction}"
+      RetentionInDays: 7
+
+Outputs:
+  GatewayUri:
+    Description: The URL
+    Value: !GetAtt NodeRestApi.ApiEndpoint

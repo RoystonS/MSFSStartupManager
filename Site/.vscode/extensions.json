@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "timonwong.shellcheck",
+    "foxundermoon.shell-format",
+    "kddejong.vscode-cfn-lint",
+    "redhat.vscode-yaml",
+    "amazonwebservices.aws-toolkit-vscode",
+    "esbenp.prettier-vscode"
+  ]
+}
