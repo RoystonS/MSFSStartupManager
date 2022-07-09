@@ -30,7 +30,7 @@ Resources:
           - Effect: Allow
             Action:
               - "s3:Put*"
-            Resource: !Sub "arn:aws:s3:::msfs-startup-submissions-${Environment}/*"
+            Resource: !Sub "${S3Bucket.Arn}/*"
       Roles:
         - !Ref LambdaBasicExecutionRole
 
