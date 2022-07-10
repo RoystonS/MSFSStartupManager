@@ -65,10 +65,11 @@ namespace MSFSStartupManager
                 }
 
                 var version = Assembly.GetExecutingAssembly().GetName().Version;
-                var currentProgramVersion = $"{version.Major}.{version.Minor}.{version.Build}";
-                if (currentProgramVersion != status.requiredVersion)
+                var requiredVersion = new Version(status.requiredVersion);
+                if (requiredVersion > version)
                 {
-                    MessageBox.Show($"Please upgrade to version {status.requiredVersion} of this program. You currently have {currentProgramVersion}.", "Upgrade needed", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show($"Please upgrade to version v{status.requiredVersion} of this program. You currently have v{version.Major}.{version.Minor}.{version.Build}. The download page will be opened in a web browser when you close this dialog.", "Upgrade needed", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    UrlOpener.OpenUrl(new Uri("https://github.com/RoystonS/MSFSStartupManager/releases"));
                     return;
                 }
 
