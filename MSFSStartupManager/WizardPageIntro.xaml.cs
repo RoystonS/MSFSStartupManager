@@ -15,11 +15,7 @@ namespace MSFSStartupManager
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = e.Uri.AbsoluteUri,
-                UseShellExecute = true
-            });
+            UrlOpener.OpenUrl(e.Uri);
             e.Handled = true;
         }
     }
