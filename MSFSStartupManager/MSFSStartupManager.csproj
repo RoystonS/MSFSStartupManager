@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <Copyright>Royston Shufflebotham &lt;royston@shufflebotham.org&gt;</Copyright>
     <PackageProjectUrl>https://github.com/RoystonS/MSFSStartupManager</PackageProjectUrl>
     <RepositoryUrl>https://github.com/RoystonS/MSFSStartupManager</RepositoryUrl>
