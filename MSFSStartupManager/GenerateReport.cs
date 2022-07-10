@@ -1,6 +1,8 @@
 ﻿using MSFSExeXml;
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
 
@@ -55,11 +57,13 @@ namespace MSFSStartupManager
 
                     foreach (var addon in viewModel.AddonStartupStatusViewModels)
                     {
+                        builder.AppendLine();
                         builder.AppendFormat("Tested addon: {0}. Confirmed start: {1}. Comments: {2}", addon.Name, addon.Started, addon.Comments);
                     }
 
                     foreach (var addon in model.Addons)
                     {
+                        builder.AppendLine();
                         builder.AppendFormat("Configured addon: {0}", addon.Name);
                         builder.AppendLine();
                         builder.AppendFormat("Path: {0}", addon.Path);
@@ -129,6 +133,16 @@ namespace MSFSStartupManager
             if (viewModel.TriedReplacingExeXml.HasValue && viewModel.TriedReplacingExeXml.Value)
             {
                 builder.AppendFormat("Replacement exe.xml worked: {0}", viewModel.ReplacementExeXmlWorked);
+                builder.AppendLine();
+            }
+            builder.AppendLine("===");
+
+
+            builder.AppendLine("Processes:");
+            builder.AppendLine("ID, SessionID, Name, Responding");
+            foreach (var process in Process.GetProcesses().OrderBy(p => p.Id).OrderBy(p => p.ProcessName))
+            {
+                builder.AppendFormat("{0}, {1}, {2}, {3}", process.Id, process.SessionId, process.ProcessName, process.Responding);
                 builder.AppendLine();
             }
             builder.AppendLine("===");
