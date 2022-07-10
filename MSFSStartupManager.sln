@@ -1,13 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32428.217
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSFSStartupManager", "MSFSStartupManager\MSFSStartupManager.csproj", "{2F61D5B1-1BE0-4B23-8977-5F2DDA6825BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSFSExeXml", "MSFSExeXml\MSFSExeXml.csproj", "{CF15BDD3-EEB0-443E-94EE-79D84F6AA820}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSFSExeXml", "MSFSExeXml\MSFSExeXml.csproj", "{CF15BDD3-EEB0-443E-94EE-79D84F6AA820}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSFSExeXml.Tests", "MSFSExeXml.Tests\MSFSExeXml.Tests.csproj", "{2C34B619-2342-4765-877E-C578BF5AECBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSFSExeXml.Tests", "MSFSExeXml.Tests\MSFSExeXml.Tests.csproj", "{2C34B619-2342-4765-877E-C578BF5AECBC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{48C87C4E-F411-4092-B7B8-402DBD10D46F}"
+	ProjectSection(SolutionItems) = preProject
+		build-and-publish.cmd = build-and-publish.cmd
+		build-and-publish.ps1 = build-and-publish.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,7 @@
 ﻿bin/
 obj/
 /.vs/
+/Release/
 *.csproj.user
 *.pubxml.user
+MSFSStartupManager*.zip
